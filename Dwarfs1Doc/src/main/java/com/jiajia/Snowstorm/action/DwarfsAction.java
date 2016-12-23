@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DwarfsAction {
     @RequestMapping("/dwarfs")
-    public String getDwarfs(){
-        return "dwarfs";
+    public void getDwarfs(){
     }
 }
