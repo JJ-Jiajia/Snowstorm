@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Dwarfs1Doc:war exploded">
+    <output-path>$PROJECT_DIR$/Dwarfs1Doc/target/Dwarfs-1-Doc</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Dwarfs1Doc" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Dwarfs1Doc/target/Dwarfs-1-Doc/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="Dwarfs1Doc/web/Web" />
+    </root>
+  </artifact>
+</component>

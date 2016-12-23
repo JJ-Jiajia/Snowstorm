@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Dwarfs1Doc:war">
+    <output-path>$PROJECT_DIR$/Dwarfs1Doc/target</output-path>
+    <root id="archive" name="Dwarfs-1-Doc.war">
+      <element id="artifact" artifact-name="Dwarfs1Doc:war exploded" />
+    </root>
+  </artifact>
+</component>
