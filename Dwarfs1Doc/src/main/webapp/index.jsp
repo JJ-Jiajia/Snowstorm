@@ -1,9 +1,16 @@
 <head>
-    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script>
         $(function () {
-            $("#dwarfs").css("color","red");
+            setInterval("changeFontColor()",500);
         })
+        function changeFontColor() {
+            var color='#';
+            for(var i=0;i<=5;i++){
+                color+=(Math.floor(Math.random()*16)).toString(16);
+            }
+            $("#dwarfs").css("color",color);
+        }
     </script>
 </head>
 <html>
