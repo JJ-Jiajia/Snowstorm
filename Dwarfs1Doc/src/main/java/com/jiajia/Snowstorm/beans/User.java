@@ -1,16 +1,22 @@
 package com.jiajia.Snowstorm.beans;
 
+import javax.persistence.*;
+
 /**
  * Created by evenj on 2016/12/23.
  */
+@Entity
+@Table(name = "user")
 public class User {
     private String username;
     private String passwords;
     private Integer tel;
     private String address;
     private String sex;
+
     private Integer id;
 
+    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -19,6 +25,7 @@ public class User {
         this.username = username;
     }
 
+    @Column(name = "passwords")
     public String getPasswords() {
         return passwords;
     }
@@ -27,6 +34,7 @@ public class User {
         this.passwords = passwords;
     }
 
+    @Column(name = "tel")
     public Integer getTel() {
         return tel;
     }
@@ -35,6 +43,7 @@ public class User {
         this.tel = tel;
     }
 
+    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -43,6 +52,7 @@ public class User {
         this.address = address;
     }
 
+    @Column(name = "sex")
     public String getSex() {
         return sex;
     }
@@ -51,6 +61,8 @@ public class User {
         this.sex = sex;
     }
 
+    @GeneratedValue
+    @Id
     public Integer getId() {
         return id;
     }
