@@ -1,5 +1,7 @@
 package com.jiajia.Snowstorm.action;
 
+import com.jiajia.Snowstorm.manager.UserManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,7 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class DwarfsAction {
-    @RequestMapping("/dwarfs")
-    public void getDwarfs(){
+    @Autowired
+    private UserManager userManager;
+
+    @RequestMapping("/getdwarfs")
+    public void getDwarfs() {
+        userManager.queryUser();
+    }
+
+    @RequestMapping("/addDwarfs")
+    public void addDwarfs() {
+    }
+
+    @RequestMapping("/delDwarfs")
+    public void delDwarfs() {
+    }
+
+    @RequestMapping("/updateDwarfs")
+    public void updateDwarfs() {
     }
 }

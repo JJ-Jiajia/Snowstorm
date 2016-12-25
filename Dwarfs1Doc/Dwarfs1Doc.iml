@@ -16,6 +16,7 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <dependency>web dispatcherServlet servlet context</dependency>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/config/mvcconfig.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/config/applocationContext.xml</file>
         </fileset>
       </configuration>
     </facet>

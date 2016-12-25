@@ -17,6 +17,7 @@
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="100"></property>
     </bean>
+    <mvc:resources mapping="/js/**" location="/js/" />
     <!-- 在实际开发中通常都需配置 mvc:annotation-driven 标签 -->
     <mvc:annotation-driven></mvc:annotation-driven>
 </beans>
