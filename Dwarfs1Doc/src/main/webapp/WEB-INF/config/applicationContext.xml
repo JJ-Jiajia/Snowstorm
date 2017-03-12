@@ -9,9 +9,14 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
     <context:property-placeholder location="WEB-INF/config/jdbc.properties"></context:property-placeholder>
+    <!--对aop注解的支持-->
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+    <!--注解扫描-->
     <context:component-scan base-package="com.jiajia.Snowstorm">
+        <!--exculde 排除的意思-->
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller"></context:exclude-filter>
     </context:component-scan>
@@ -23,8 +28,12 @@
         <property name="driverClassName" value="${jdbc.driverClassName}"></property>
     </bean>
     <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"></bean>
+
+    <!--Hibernate Session 的支持-->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <!--传入数据源-->
         <property name="dataSource" ref="dataSource"></property>
+
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
@@ -50,24 +59,23 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="dataSource" ref="dataSource"></property>
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="query*" read-only="true" propagation="SUPPORTS"/>
-            <tx:method name="delete**" rollback-for="Exception"/>
-            <tx:method name="update**" rollback-for="Exception"/>
-            <tx:method name="add*" rollback-for="Exception"/>
-            <tx:method name="*" read-only="true" rollback-for="Exception"/>
+            <tx:method name="delete**" rollback-for="Exception" propagation="REQUIRED"/>
+            <tx:method name="update**" rollback-for="Exception" propagation="REQUIRED"/>
+            <tx:method name="add*" rollback-for="Exception" propagation="REQUIRED"/>
+            <tx:method name="*" read-only="true" rollback-for="Exception" propagation="SUPPORTS"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config proxy-target-class="true">
         <aop:pointcut id="managerOperation"
-                      expression="execution(* com.jiajia.Snowstorm.manager.impl.*Manager*.*(..))"></aop:pointcut>
+                      expression="execution(* com.jiajia.Snowstorm.manager.*Manager*.*(..))"></aop:pointcut>
         <aop:pointcut id="daoOperation"
-                      expression="execution(* com.jiajia.Snowstorm.dao.impl.*Dao*.*(..))"></aop:pointcut>
+                      expression="execution(* com.jiajia.Snowstorm.dao.*Dao*.*(..))"></aop:pointcut>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="daoOperation"></aop:advisor>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="managerOperation"></aop:advisor>
     </aop:config>

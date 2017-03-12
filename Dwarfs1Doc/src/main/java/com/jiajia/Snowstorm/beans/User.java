@@ -1,5 +1,7 @@
 package com.jiajia.Snowstorm.beans;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -9,12 +11,27 @@ import javax.persistence.*;
 @Table(name = "user")
 public class User {
     private String username;
+
     private String passwords;
-    private Integer tel;
+
+    private String tel;
+
     private String address;
+
     private String sex;
 
     private Integer id;
+
+    private Float money;
+
+    @Column(name = "money")
+    public Float getMoney() {
+        return money;
+    }
+
+    public void setMoney(Float money) {
+        this.money = money;
+    }
 
     @Column(name = "username")
     public String getUsername() {
@@ -35,11 +52,11 @@ public class User {
     }
 
     @Column(name = "tel")
-    public Integer getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(Integer tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 
@@ -61,8 +78,10 @@ public class User {
         this.sex = sex;
     }
 
-    @GeneratedValue
     @Id
+    @Column(name = "id" ,nullable = false,length = 32,unique = true)
+    @GenericGenerator(name = "generator",strategy = "uuid.hex")
+    @GeneratedValue(generator = "generator")
     public Integer getId() {
         return id;
     }
