@@ -33,7 +33,8 @@ public class Page<T> implements Serializable {
         if(list.size()%pageSize !=0){
             this.totalPage+=1;
         }
-        this.dataList = list.subList((currentPage-1)*pageSize,currentPage*pageSize);
+
+        this.dataList = list.subList((currentPage-1)*pageSize,currentPage*pageSize>totalPage?totalPage:currentPage*pageSize);
     }
 
     public int getPageSize() {
