@@ -26,15 +26,15 @@ public class Page<T> implements Serializable {
     private List<T> dataList;
 
     public Page(List<T> list,int pageSize,int currentPage) {
-        this.pageSize = pageSize;
+        this.pageSize = pageSize==-1?(list.size()>48?48:list.size()):pageSize;
         this.currentPage = currentPage;
         this.totalRecord = list.size();
-        this.totalPage = list.size()/pageSize;
-        if(list.size()%pageSize !=0){
+        this.totalPage = list.size()/this.pageSize;
+        if(list.size()%this.pageSize !=0){
             this.totalPage+=1;
         }
 
-        this.dataList = list.subList((currentPage-1)*pageSize,currentPage*pageSize>totalPage?totalPage:currentPage*pageSize);
+        this.dataList = list.subList((currentPage-1)*this.pageSize,currentPage*this.pageSize>totalRecord?totalRecord:currentPage*this.pageSize);
     }
 
     public int getPageSize() {

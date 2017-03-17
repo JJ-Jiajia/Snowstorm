@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jiajia19889 on 2016/12/23.
@@ -32,6 +36,17 @@ public class GoodsAction {
         Page<Goods>  page= GoodsManager.getGoodsList(Integer.parseInt(pageSize),Integer.parseInt(currentPage));
         return page;
 
+    }
+    @RequestMapping(value = "/login")
+    public String login()  {
+        return "login";
+    }
+
+    @RequestMapping(value = "/checklogin")
+    public String checklogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map map=request.getParameterMap();
+        response.getWriter().print("132132123132132132123132132132");
+        return "/index";
     }
 
 //    @RequestMapping( "/getGoodsById")
