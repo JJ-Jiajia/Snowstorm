@@ -15,7 +15,7 @@
 <html>
 <body>
 <center><h2>闺蜜旧物置换平台</h2></center>
-<a href="login">登录</a> <a href="userslist">test</a>
+<a href="login.htm">登录</a> <a href="addgoods.htm">录入</a>
 <hr color="black"/>
 <br/>
 <%--物品陈列--%>
@@ -120,7 +120,7 @@
         $('#goodsList').children().remove();
         var pageSize = $('#pageSize').val() == '' ? '-1' : $('#pageSize').val();
         var currentPage = $('#jump').val() == '' ? '1' : $('#jump').val();
-        var url = 'getGoods';
+        var url = 'getGoods.json';
         $.post(url, {'pageSize': pageSize, 'currentPage': currentPage}, function (data) {
             $('#currentPage').text(data.currentPage);
             $('#pageSize').val(data.pageSize);

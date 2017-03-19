@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +63,15 @@ public class DwarfsAction {
         System.out.println("1111");
         System.out.println("1111");
     }
-    @RequestMapping( "/demo")
-    public void demo() {
-
+    @RequestMapping(value = "/checklogin.json")
+    public String checkLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username=request.getParameter("username");
+        String password=request.getParameter("password");
+        User user=userManager.isExitUser(username,password);
+        if(user!=null){
+            request.getSession().setAttribute("userid",user.getId().toString());
+            return "index";
+        }else return "login";
     }
 }
 

@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="checklogin" method="post">
+<form action="checklogin.json" method="post">
    用户名： <input name="username" type="text"><br/>
     输密码： <input name="password" type="password"><br/>
     <input type="submit" value="提交">

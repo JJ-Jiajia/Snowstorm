@@ -8,6 +8,14 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <filter>
+        <filter-name>checkLoginFilter</filter-name>
+        <filter-class>com.jiajia.Snowstorm.filter.checkLoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>checkLoginFilter</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
@@ -38,8 +46,9 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/views/index.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>

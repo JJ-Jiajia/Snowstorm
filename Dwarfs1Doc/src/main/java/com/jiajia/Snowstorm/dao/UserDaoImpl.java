@@ -23,6 +23,7 @@ public class UserDaoImpl {
     public User getUserById(String id) {
         return (User) this.getSession().createQuery("from User where id= ?").setParameter(0, id).uniqueResult();
     }
+
     public List<User> getUsers() {
         return (List<User>) this.getSession().createCriteria(User.class).list();
     }
@@ -39,6 +40,19 @@ public class UserDaoImpl {
 
     public void deleteUserById(String id) {
         this.getSession().createQuery("delete User where id = ? ").setParameter(0, id).executeUpdate();
+    }
+
+    public User isExitUser(String username, String password) {
+        User user = (User) this.getSession()
+                .createQuery("FROM User WHERE USERNAME= ? AND PASSWORDS= ?")
+                .setParameter(0, username)
+                .setParameter(1, password)
+                .uniqueResult();
+        if (user != null && user.getId() != null)
+            return user;
+        else return null;
+
+
     }
 
 

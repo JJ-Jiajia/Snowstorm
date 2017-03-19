@@ -15,7 +15,7 @@
 <html>
 <body>
 <center><h2>闺蜜旧物置换平台</h2></center>
-<a href="login">登录</a> <a href="userslist">test</a>
+<a href="login">登录</a> <a href="userslist">test</a><a href="addgoods">录入</a>
 <hr color="black"/>
 <br/>
 <%--物品陈列--%>

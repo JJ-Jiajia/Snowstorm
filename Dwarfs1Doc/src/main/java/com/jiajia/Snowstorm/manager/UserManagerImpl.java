@@ -34,4 +34,6 @@ public class UserManagerImpl {
     public List<User> getUsers() {
         return userDao.getUsers();
     }
+
+    public User isExitUser(String username, String password) {return userDao.isExitUser(username,password);}
 }
