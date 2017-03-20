@@ -1,8 +1,11 @@
 package com.jiajia.Snowstorm.action;
 
+import com.jiajia.Snowstorm.beans.GoodPicture;
 import com.jiajia.Snowstorm.beans.Goods;
 import com.jiajia.Snowstorm.beans.Page;
+import com.jiajia.Snowstorm.beans.User;
 import com.jiajia.Snowstorm.manager.GoodsManagerImpl;
+import com.jiajia.Snowstorm.manager.UserManagerImpl;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +18,12 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jiajia19889 on 2016/12/23.
@@ -27,46 +32,68 @@ import java.io.IOException;
 @Controller
 public class GoodsAction {
     @Autowired
-    private GoodsManagerImpl GoodsManager;
+    private GoodsManagerImpl goodsManager;
+
+    @Autowired
+    private UserManagerImpl userManager;
 
     @RequestMapping(value = "/getGoods.json", method = RequestMethod.POST)
     @ResponseBody
     public Page<Goods> getGoodss(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
         String pageSize = request.getParameter("pageSize");
         String currentPage = request.getParameter("currentPage");
-        Page<Goods> page = GoodsManager.getGoodsList(Integer.parseInt(pageSize), Integer.parseInt(currentPage));
+        Page<Goods> page = goodsManager.getGoodsList(Integer.parseInt(pageSize), Integer.parseInt(currentPage));
         return page;
 
     }
 
     @RequestMapping(value = "/login.htm")
-    public String login() {
-        return "login";
+    public void login() {
     }
 
 
+    @RequestMapping(value = "/savegoods.json", method = RequestMethod.POST)
+    public void saveGoods(@RequestParam("picture") CommonsMultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        boolean flag = true;
+        Goods goods=new Goods();
+        User user = (User) request.getSession().getAttribute("user");
+        Map<String,String[]> condition = request.getParameterMap();
+        List<GoodPicture>  pictureList=new ArrayList<GoodPicture>() ;
 
-    @RequestMapping(value = "/addgoods.json", method = RequestMethod.POST)
-    public String addGoods(@RequestParam("picture") CommonsMultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (files != null) {
             for (CommonsMultipartFile file : files) {
                 String type = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
-                String filename = "userid" + System.currentTimeMillis() + type;
+                String filename = user.getId().toString() + System.currentTimeMillis() + type;
                 String path = request.getSession().getServletContext().getRealPath("/imgs");
-                File desFile = new File(path);
-                FileUtils.copyInputStreamToFile(file.getInputStream(),desFile);
-
+                String desPath = path + "/" + filename;
+                String savePath="imgs/"+filename;
+                File desFile = new File(desPath);
+                FileUtils.copyInputStreamToFile(file.getInputStream(), desFile);
+                if(flag){
+                    flag=false;
+                    goods.setPicture(savePath);
+                    goods.setGoodClass(condition.get("class")[0]);
+                    goods.setMemo(condition.get("memo")[0]);
+                    goods.setName(condition.get("name")[0]);
+                    goods.setCreatetime(new Date());
+                    goods.setUserId(user.getId());
+                    goods.setOwnername(user.getUsername());
+                    goodsManager.saveGood(goods);
+                }else {
+                    GoodPicture goodPicture= new GoodPicture();
+                    goodPicture.setGoodCode(goods.getGoodcode());
+                    goodPicture.setPicturePath(savePath);
+                    pictureList.add(goodPicture);
+                }
             }
         }
-        return null;
+        goodsManager.saveGoodPicture(pictureList);
+        response.getWriter().print("OK");
+        response.getWriter().flush();
     }
 
     @RequestMapping(value = "/addgoods.htm")
-    public String addGoodsView(HttpServletRequest request) throws IOException {
-        String username=(String)request.getSession().getAttribute("username");
-        if(username!=null){
-            return "addgoods";
-        }else return "login";
+    public void addgoods() {
     }
 
 }

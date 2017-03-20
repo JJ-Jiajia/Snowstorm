@@ -15,7 +15,7 @@
 <html>
 <body>
 <center><h2>闺蜜旧物置换平台</h2></center>
-<a href="login.htm">登录</a> <a href="addgoods.htm">录入</a>
+<a href="login.htm">登录</a> <a href="userslist.htm">tses</a><a href="addgoods.htm">录入</a>
 <hr color="black"/>
 <br/>
 <%--物品陈列--%>
@@ -53,8 +53,8 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
     </div>
     <div style="float:left;">
-        跳转：<input id="jump" size="1"  type="number" max="48" min="1">
-        <button id="jumpBtn" style="background: gainsboro;border: none;" onclick="listdata()" >确定</button>
+        跳转：<input id="jump" size="1" type="number" max="48" min="1">
+        <button id="jumpBtn" style="background: gainsboro;border: none;" onclick="listdata()">确定</button>
     </div>
     <div style="float:left;">
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -93,30 +93,30 @@
         $('#pageDown').click(function (event) {
             event.preventDefault();
             var currentPage = $('#jump').val() == '' ? '1' : $('#jump').val();
-            var next=parseInt(currentPage)+1>parseInt($('#totalPage').text())?parseInt($('#totalPage').text()):parseInt(currentPage)+1;
+            var next = parseInt(currentPage) + 1 > parseInt($('#totalPage').text()) ? parseInt($('#totalPage').text()) : parseInt(currentPage) + 1;
             $('#jump').val(next);
             listdata();
         });
         $('#pageUp').click(function (event) {
             event.preventDefault();
             var currentPage = $('#jump').val() == '' ? '1' : $('#jump').val();
-            var pre=parseInt(currentPage) ==1 ?1:parseInt(currentPage)-1;
+            var pre = parseInt(currentPage) == 1 ? 1 : parseInt(currentPage) - 1;
             $('#jump').val(pre);
             listdata();
         });
         listdata();
     });
-    var flag=false;
+    var flag = false;
     function listdata() {
-        if(flag){
-            var totalRecord1=parseInt($('#totalRecord').text());
+        if (flag) {
+            var totalRecord1 = parseInt($('#totalRecord').text());
             var pageSize1 = parseInt($('#pageSize').val() == '' ? '-1' : $('#pageSize').val());
             var currentPage1 = parseInt($('#jump').val() == '' ? '1' : $('#jump').val());
-            if(pageSize1*currentPage1>totalRecord1){
+            if (pageSize1 * currentPage1 > totalRecord1) {
                 return;
             }
         }
-        flag=true;
+        flag = true;
         $('#goodsList').children().remove();
         var pageSize = $('#pageSize').val() == '' ? '-1' : $('#pageSize').val();
         var currentPage = $('#jump').val() == '' ? '1' : $('#jump').val();
@@ -127,11 +127,11 @@
             $('#totalPage').text(data.totalPage);
             $('#totalRecord').text(data.totalRecord);
             var dataList = data.dataList;
-            for(var i=0;i<dataList.length;i++){
+            for (var i = 0; i < dataList.length; i++) {
                 var imgSrc = dataList[i]['picture'];
                 var name = dataList[i]['name'];
-                var ownername =dataList[i].ownername;
-                var createtime =new Date(dataList[i].createtime).Format("yyyy-MM-dd");
+                var ownername = dataList[i].ownername;
+                var createtime = new Date(dataList[i].createtime).Format("yyyy-MM-dd");
                 var domObj = '<div style="float:left;" class="good" >';
                 domObj += '<div><img src="';
                 domObj += imgSrc;
@@ -142,7 +142,8 @@
                 domObj += '</a><br/><div>时间：';
                 domObj += createtime;
                 domObj += '</div> </div></div>';
-                $('#goodsList').append(domObj);}
+                $('#goodsList').append(domObj);
+            }
         })
 
     }

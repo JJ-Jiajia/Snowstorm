@@ -20,7 +20,7 @@ public class UserDaoImpl {
         return sessionFactory.getCurrentSession();
     }
 
-    public User getUserById(String id) {
+    public User getUserById(Integer id) {
         return (User) this.getSession().createQuery("from User where id= ?").setParameter(0, id).uniqueResult();
     }
 

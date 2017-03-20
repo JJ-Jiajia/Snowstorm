@@ -1,6 +1,5 @@
 package com.jiajia.Snowstorm.action;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.jiajia.Snowstorm.beans.User;
 import com.jiajia.Snowstorm.manager.UserManagerImpl;
 import com.mysql.cj.x.json.JsonArray;
@@ -37,7 +36,7 @@ public class DwarfsAction {
 
     @RequestMapping( "/getUserById")
     @ResponseBody
-    public User getUserById(String id) {
+    public User getUserById(Integer id) {
         return userManager.getUserById(id);
     }
 
@@ -55,12 +54,8 @@ public class DwarfsAction {
     public void updateUser(User user) {
         userManager.updateUser(user);
     }
-    @RequestMapping( "/userslist")
+    @RequestMapping( "/userslist.htm")
     public void userslist() {
-        System.out.println("1111");
-        System.out.println("1111");
-        System.out.println("1111");
-        System.out.println("1111");
         System.out.println("1111");
     }
     @RequestMapping(value = "/checklogin.json")
@@ -69,7 +64,7 @@ public class DwarfsAction {
         String password=request.getParameter("password");
         User user=userManager.isExitUser(username,password);
         if(user!=null){
-            request.getSession().setAttribute("userid",user.getId().toString());
+            request.getSession().setAttribute("user",user);
             return "index";
         }else return "login";
     }

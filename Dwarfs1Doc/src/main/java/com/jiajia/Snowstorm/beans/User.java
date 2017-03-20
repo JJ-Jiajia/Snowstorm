@@ -79,9 +79,9 @@ public class User {
     }
 
     @Id
-    @Column(name = "id" ,nullable = false,length = 32,unique = true)
-    @GenericGenerator(name = "generator",strategy = "uuid.hex")
-    @GeneratedValue(generator = "generator")
+    @Column(name = "id" ,nullable = false,length = 11,unique = true)
+    @GenericGenerator(name = "idGenerator",strategy = "increment")
+    @GeneratedValue(generator = "idGenerator")
     public Integer getId() {
         return id;
     }

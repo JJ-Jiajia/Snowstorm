@@ -15,7 +15,7 @@ public class UserManagerImpl {
     @Autowired
     private UserDaoImpl userDao;
 
-    public User getUserById(String id) {
+    public User getUserById(Integer id) {
         return userDao.getUserById(id);
     }
 

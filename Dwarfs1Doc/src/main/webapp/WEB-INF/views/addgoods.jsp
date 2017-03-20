@@ -11,11 +11,23 @@
     <title>添加物品</title>
 </head>
 <body>
-<form action="addgoods.json" enctype="multipart/form-data" method="post">
+<form action="savegoods.json" enctype="multipart/form-data" method="post">
     物品名称：<input name="name"><br/>
-    物品图片：<input type="file" name="picture"><br/>
-    物品描述：<input name="memo"><br/>
-    <input type="submit"value="确定">
+    物品分类：<input name="class"><br/>
+    封面图片：<input type="file" name="picture"><br/>
+    详细图片：<input type="file" name="picture">
+    <button id="add" type="button">添加</button>
+    <br/>
+    物品描述：<textarea name="memo"></textarea><br/>
+    <input type="submit" value="确定">
 </form>
 </body>
 </html>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script>
+    $(function () {
+        $("#add").click(function () {
+            $("#add").before('<br/><input type="file" name="picture">');
+        });
+    });
+</script>

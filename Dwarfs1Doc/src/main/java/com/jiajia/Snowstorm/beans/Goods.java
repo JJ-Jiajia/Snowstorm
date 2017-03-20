@@ -1,9 +1,8 @@
 package com.jiajia.Snowstorm.beans;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,7 +13,9 @@ import java.util.Date;
 public class Goods {
 
     @Id
-    @Column(name = "c_goodcode")
+    @Column(name = "l_goodcode" ,nullable = false,length = 11,unique = true)
+    @GenericGenerator(name = "idGenerator",strategy = "increment")
+    @GeneratedValue(generator = "idGenerator")
     private Integer goodcode;
 
     @Column(name = "c_name")
@@ -34,6 +35,39 @@ public class Goods {
 
     @Column(name = "c_ownername")
     private String ownername;
+
+    @Column(name = "l_userid")
+    private Integer userId;
+
+    @Column(name = "d_tradingDate")
+    private Date tradingDate;
+
+    @Column(name = "c_tradingStatus")
+    private String tradingStatus;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Date getTradingDate() {
+        return tradingDate;
+    }
+
+    public void setTradingDate(Date tradingDate) {
+        this.tradingDate = tradingDate;
+    }
+
+    public String getTradingStatus() {
+        return tradingStatus;
+    }
+
+    public void setTradingStatus(String tradingStatus) {
+        this.tradingStatus = tradingStatus;
+    }
 
     public Integer getGoodcode() {
         return goodcode;

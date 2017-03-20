@@ -1,6 +1,7 @@
 package com.jiajia.Snowstorm.filter;
 
-import org.springframework.http.HttpRequest;
+
+import com.jiajia.Snowstorm.beans.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +20,12 @@ public class checkLoginFilter implements Filter{
         if(uri.contains("login") ||uri.contains("index")){
             filterChain.doFilter(servletRequest,servletResponse);
         }else {
-            String userid=(String)((HttpServletRequest) servletRequest).getSession().getAttribute("userid");
-            if(null ==userid|| "".equals(userid)){
+            User user=(User)((HttpServletRequest) servletRequest).getSession().getAttribute("user");
+            if(null ==user|| null== user.getId() ){
                 HttpServletResponse response=(HttpServletResponse)servletResponse;
-                response.sendRedirect("login");
-                return;
+                response.sendRedirect("login.htm");
             }
+            filterChain.doFilter(servletRequest,servletResponse);
         }
     }
 
