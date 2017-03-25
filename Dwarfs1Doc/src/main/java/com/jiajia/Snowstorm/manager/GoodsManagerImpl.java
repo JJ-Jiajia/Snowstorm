@@ -31,4 +31,13 @@ public class GoodsManagerImpl {
     public void saveGoodPicture(List<GoodPicture> pictureList){
         goodsDao.saveGoodPicture(pictureList);
     }
+
+    public Goods getGoods(String goodscode){
+        return goodsDao.getGoods(goodscode);
+    }
+
+    public List getGoodsPictureList(String goodscode){
+        return goodsDao.getGoodsPictureList(goodscode);
+    }
+
 }

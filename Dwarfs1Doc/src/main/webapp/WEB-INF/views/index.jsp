@@ -145,6 +145,5 @@
                 $('#goodsList').append(domObj);
             }
         })
-
     }
 </script>

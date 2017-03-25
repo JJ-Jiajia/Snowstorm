@@ -5,7 +5,6 @@ import com.jiajia.Snowstorm.beans.Goods;
 import com.jiajia.Snowstorm.beans.Page;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -40,6 +39,17 @@ public class GoodsDaoImpl {
          while (it.hasNext()){
              this.getSession().save(it.next());
          }
+    }
+
+    public Goods getGoods(String goodscode){
+        String hql="from Goods where id = ?";
+        return (Goods) this.getSession().createQuery(hql).setParameter(0,goodscode).uniqueResult();
+
+    }
+
+    public List getGoodsPictureList(String goodscode){
+        String hql ="from GoodPicture where id= ? ";
+        return this.getSession().createQuery(hql).setParameter(0,goodscode).list();
     }
 
 }

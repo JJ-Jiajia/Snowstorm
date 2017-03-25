@@ -95,6 +95,14 @@ public class GoodsAction {
     @RequestMapping(value = "/addgoods.htm")
     public void addgoods() {
     }
+    @RequestMapping(value = "/goodsdetial.htm")
+    public void goodsdetial(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
+        String goodscode=request.getParameter("goodscode");
+        Goods goods= goodsManager.getGoods(goodscode);
+        List pictures=goodsManager.getGoodsPictureList(goodscode);
+        modelMap.put("goodsInfo",goods);
+        modelMap.put("pictures",pictures);
+    }
 
 }
 
