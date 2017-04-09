@@ -30,6 +30,6 @@ public class checkLoginFilter implements Filter {
     }
 
     public void destroy() {
-
+        System.out.println("yoyoyoyo!");
     }
 }
