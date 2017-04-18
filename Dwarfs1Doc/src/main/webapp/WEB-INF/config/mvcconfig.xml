@@ -60,7 +60,7 @@
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
 
-    <!-- 在实际开发中通常都需配置 mvc:annotation-driven 标签 -->
+    <!-- 作用是传递JSON -->
 
     <mvc:annotation-driven>
         <mvc:message-converters>
