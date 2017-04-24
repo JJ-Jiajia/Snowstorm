@@ -50,6 +50,12 @@ public class GoodsAction {
     @RequestMapping(value = "/login.htm")
     public void login() {
     }
+    @RequestMapping(value = "/register.htm")
+    public void register() {
+    }
+    @RequestMapping(value = "/register.json")
+    public void registerToDB(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
+    }
 
 
     @RequestMapping(value = "/savegoods.json", method = RequestMethod.POST)

@@ -11,16 +11,18 @@ import java.util.concurrent.Future;
 public class MyThread2 implements Runnable {
     private int tickets = 100;
 
+    private Object lock= new Object();
+
     public void run() {
-        int tickets = 100;
+//        int tickets = 100;
         while (true) {
-            synchronized (this) {
+            synchronized (lock) {
                 if (tickets > 0) {
-//                    try {
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     System.out.println(Thread.currentThread().getName() + "..........." + tickets--);
                 }
             }

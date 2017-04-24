@@ -12,5 +12,21 @@
 </head>
 <body>
 
+<div style="position:absolute;margin-left: 530px; margin-top: 100px;">
+    <form action="register.json">
+        <span>用户名：</span>
+        <input name="username" type="text" style="margin-left: 1px;"><br/>
+        <span>密&nbsp;&nbsp;码：</span>
+        <input name="password" type="password"><br/>
+        <span>性&nbsp;&nbsp;别：</span>
+        <select style="width: 173px;">
+            <option name="male" value="1">男</option>
+            <option name="female" value="0">女</option>
+        </select><br/>
+        <span>电&nbsp;&nbsp;话：</span>
+        <input name="tel" type="tel"><br/>
+        <input value="提交" type="submit">
+    </form>
+</div>
 </body>
 </html>
