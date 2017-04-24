@@ -54,7 +54,20 @@ public class GoodsAction {
     public void register() {
     }
     @RequestMapping(value = "/register.json")
-    public void registerToDB(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
+    public void registerToDB(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) throws IOException {
+        String username=request.getParameter("username");
+        String password=request.getParameter("password");
+        String sex=request.getParameter("sex");
+        String tel=request.getParameter("tel");
+        //todo 判空操作
+        User u=new User();
+        u.setUsername(username);
+        u.setPasswords(password);
+        u.setSex(sex);
+        u.setTel(tel);
+        userManager.addUser(u);
+        response.getWriter().print("OK");
+        response.getWriter().flush();
     }
 
 
