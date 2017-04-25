@@ -1,26 +1,57 @@
 package com.jiajia.Snowstorm.util;
 
-import java.lang.reflect.Field;
+import javax.servlet.http.HttpServletRequest;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by jiajia19889 on 2017/4/24.
  */
-public class BeanUtil<T> {
-    public static <T> T mapToBean(Map m,T bean){
-        Method[] methods=bean.getClass().getMethods();
-        for (Method me:methods
-             ) {
-            try {
-                me.invoke(bean,m.get(me.getName().toLowerCase().substring(3)));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+public class BeanUtil {
+    /**
+     * 将一个 Map 对象转化为一个 JavaBean
+     * @param type 要转化的类型
+     * @param map 包含属性值的 map
+     * @return 转化出来的 JavaBean 对象
+     * @throws IntrospectionException 如果分析类属性失败
+     * @throws IllegalAccessException 如果实例化 JavaBean 失败
+     * @throws InstantiationException 如果实例化 JavaBean 失败
+     * @throws InvocationTargetException 如果调用属性的 setter 方法失败
+     */
+    public static <T> T mapToBean(Map map, Class<T> type) throws IntrospectionException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        //获取类属性信息
+        BeanInfo beanInfo= Introspector.getBeanInfo(type);
+        //创建javaBean对象
+        T obj=type.newInstance();
+        //获取封装属性get set 方法的 一个抽象成的对象 的数组
+        PropertyDescriptor[] propertyDescriptors=beanInfo.getPropertyDescriptors();
+        //遍历并调用其中的方法
+        for (PropertyDescriptor desc: propertyDescriptors) {
+            String propertyName=desc.getName();
+            if (map.containsKey(propertyName)){
+                Object[] args={map.get(propertyName)};
+                desc.getWriteMethod().invoke(obj,args);
             }
         }
-        return bean;
+
+        return obj;
+    }
+    public static Map<String,String> getParameterMap(HttpServletRequest request){
+        Map<String,String> map=new HashMap<String, String>();
+
+        Enumeration e=request.getParameterNames();
+
+        while(e!=null && e.hasMoreElements()){
+            Object o=e.nextElement();
+            map.put(o.toString(),request.getParameter(o.toString()));
+        }
+
+        return map;
     }
 }

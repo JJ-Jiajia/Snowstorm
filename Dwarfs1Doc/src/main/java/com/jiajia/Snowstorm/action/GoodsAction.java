@@ -6,6 +6,7 @@ import com.jiajia.Snowstorm.beans.Page;
 import com.jiajia.Snowstorm.beans.User;
 import com.jiajia.Snowstorm.manager.GoodsManagerImpl;
 import com.jiajia.Snowstorm.manager.UserManagerImpl;
+import com.jiajia.Snowstorm.util.BeanUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,22 +53,28 @@ public class GoodsAction {
     @RequestMapping(value = "/login.htm")
     public void login() {
     }
+
     @RequestMapping(value = "/register.htm")
     public void register() {
     }
+
     @RequestMapping(value = "/register.json")
-    public void registerToDB(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) throws IOException {
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        String sex=request.getParameter("sex");
-        String tel=request.getParameter("tel");
-        //todo 判空操作
-        User u=new User();
-        u.setUsername(username);
-        u.setPasswords(password);
-        u.setSex(sex);
-        u.setTel(tel);
+    public void registerToDB(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException, InvocationTargetException, IntrospectionException, InstantiationException, IllegalAccessException {
+        User u;
+        u = BeanUtil.mapToBean(BeanUtil.getParameterMap(request), User.class);
         userManager.addUser(u);
+
+//        HashMap<String,String> ma=new HashMap<String,String>();
+//        String username=request.getParameter("username");
+//        String password=request.getParameter("password");
+//        String sex=request.getParameter("sex");
+//        String tel=request.getParameter("tel");
+//        //todo 判空操作
+//        User u=new User();
+//        u.setUsername(username);
+//        u.setPasswords(password);
+//        u.setSex(sex);
+//        u.setTel(tel);
         response.getWriter().print("OK");
         response.getWriter().flush();
     }
@@ -74,10 +83,10 @@ public class GoodsAction {
     @RequestMapping(value = "/savegoods.json", method = RequestMethod.POST)
     public void saveGoods(@RequestParam("picture") CommonsMultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean flag = true;
-        Goods goods=new Goods();
+        Goods goods = new Goods();
         User user = (User) request.getSession().getAttribute("user");
-        Map<String,String[]> condition = request.getParameterMap();
-        List<GoodPicture>  pictureList=new ArrayList<GoodPicture>() ;
+        Map<String, String[]> condition = request.getParameterMap();
+        List<GoodPicture> pictureList = new ArrayList<GoodPicture>();
 
         if (files != null) {
             for (CommonsMultipartFile file : files) {
@@ -85,11 +94,11 @@ public class GoodsAction {
                 String filename = user.getId().toString() + System.currentTimeMillis() + type;
                 String path = request.getSession().getServletContext().getRealPath("/imgs");
                 String desPath = path + "/" + filename;
-                String savePath="imgs/"+filename;
+                String savePath = "imgs/" + filename;
                 File desFile = new File(desPath);
                 FileUtils.copyInputStreamToFile(file.getInputStream(), desFile);
-                if(flag){
-                    flag=false;
+                if (flag) {
+                    flag = false;
                     goods.setPicture(savePath);
                     goods.setGoodClass(condition.get("class")[0]);
                     goods.setMemo(condition.get("memo")[0]);
@@ -98,8 +107,8 @@ public class GoodsAction {
                     goods.setUserId(user.getId());
                     goods.setOwnername(user.getUsername());
                     goodsManager.saveGood(goods);
-                }else {
-                    GoodPicture goodPicture= new GoodPicture();
+                } else {
+                    GoodPicture goodPicture = new GoodPicture();
                     goodPicture.setGoodCode(goods.getGoodcode());
                     goodPicture.setPicturePath(savePath);
                     pictureList.add(goodPicture);
@@ -114,13 +123,14 @@ public class GoodsAction {
     @RequestMapping(value = "/addgoods.htm")
     public void addgoods() {
     }
+
     @RequestMapping(value = "/goodsdetial.htm")
-    public void goodsdetial(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
-        String goodscode=request.getParameter("goodscode");
-        Goods goods= goodsManager.getGoods(goodscode);
-        List pictures=goodsManager.getGoodsPictureList(goodscode);
-        modelMap.put("goodsInfo",goods);
-        modelMap.put("pictures",pictures);
+    public void goodsdetial(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+        String goodscode = request.getParameter("goodscode");
+        Goods goods = goodsManager.getGoods(goodscode);
+        List pictures = goodsManager.getGoodsPictureList(goodscode);
+        modelMap.put("goodsInfo", goods);
+        modelMap.put("pictures", pictures);
     }
 
 }

@@ -17,7 +17,7 @@
         <span>用户名：</span>
         <input name="username" type="text" style="margin-left: 1px;"><br/>
         <span>密&nbsp;&nbsp;码：</span>
-        <input name="password" type="password"><br/>
+        <input name="passwords" type="password"><br/>
         <span>性&nbsp;&nbsp;别：</span>
         <select name="sex" style="width: 173px;">
             <option value="1">男</option>
