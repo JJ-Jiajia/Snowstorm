@@ -2,16 +2,20 @@ package com.jiajia.Snowstorm.action;
 
 import com.jiajia.Snowstorm.beans.User;
 import com.jiajia.Snowstorm.manager.UserManagerImpl;
+import com.jiajia.Snowstorm.util.BeanUtil;
 import com.mysql.cj.x.json.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.IntrospectionException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +32,6 @@ public class DwarfsAction {
     @ResponseBody
     public List<User> getUsers() {
         ArrayList<User> users= (ArrayList<User>) userManager.getUsers();
-        JsonArray   ja= new JsonArray();
-
         return users;
 
     }
@@ -67,6 +69,26 @@ public class DwarfsAction {
             request.getSession().setAttribute("user",user);
             return "index";
         }else return "login";
+    }
+
+    @RequestMapping(value = "/login.htm")
+    public void login() {
+    }
+
+    @RequestMapping(value = "/logout.json")
+    public void logout() {
+    }
+
+    @RequestMapping(value = "/register.htm")
+    public void register() {
+    }
+
+    @RequestMapping(value = "/register.json")
+    public void registerToDB(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException, InvocationTargetException, IntrospectionException, InstantiationException, IllegalAccessException {
+        User u = BeanUtil.mapToBean(BeanUtil.getParameterMap(request), User.class);
+        userManager.addUser(u);
+        response.getWriter().print("OK");
+        response.getWriter().flush();
     }
 }
 
