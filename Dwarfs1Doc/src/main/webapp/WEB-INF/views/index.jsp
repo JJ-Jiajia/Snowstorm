@@ -18,7 +18,7 @@
 <body>
 <center><h2>闺蜜旧物置换平台</h2></center>
 
-<% if (session.getAttribute("user") == null && "${sessionScope.user.username}".equals("")){%>
+<% if (session.getAttribute("user") == null) {%>
 <a href="register.htm">注册</a>
 <a href="login.htm">登录</a>
 <%} else {%>
@@ -94,11 +94,18 @@
             listdata();
         });
         listdata();
-        $('#lagout').off('click').on('click',function () {
+        $('#lagout').off('click').on('click', function () {
             layer.open({
-                content:'确定登出么？',
-                yes:function (layero, index) {
-                    $.post();
+                content: '确定登出么？',
+                yes: function (layero, index) {
+                    var url = '/logout.json';
+                    $.post(url, {}, function (data) {
+                        if(data.OK == 'OK'){
+                            parent.window.location.reload();
+                        }else{
+                            layer.msg('登出失败！');
+                        }
+                    });
                     layer.close(layero);
                 }
             })

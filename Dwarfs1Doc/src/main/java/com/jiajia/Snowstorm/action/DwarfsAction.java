@@ -3,7 +3,6 @@ package com.jiajia.Snowstorm.action;
 import com.jiajia.Snowstorm.beans.User;
 import com.jiajia.Snowstorm.manager.UserManagerImpl;
 import com.jiajia.Snowstorm.util.BeanUtil;
-import com.mysql.cj.x.json.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,7 +16,9 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jiajia19889 on 2016/12/23.
@@ -61,14 +62,14 @@ public class DwarfsAction {
         System.out.println("1111");
     }
     @RequestMapping(value = "/checklogin.json")
-    public String checkLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void checkLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username=request.getParameter("username");
         String password=request.getParameter("password");
         User user=userManager.isExitUser(username,password);
         if(user!=null){
             request.getSession().setAttribute("user",user);
-            return "index";
-        }else return "login";
+            response.sendRedirect("/index.htm");
+        }else response.sendRedirect("index");
     }
 
     @RequestMapping(value = "/login.htm")
@@ -76,11 +77,23 @@ public class DwarfsAction {
     }
 
     @RequestMapping(value = "/logout.json")
-    public void logout() {
+    @ResponseBody
+    public Map<String, String> logout(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> result=new HashMap<String, String>();
+        System.out.println(request.getSession().getAttribute("user"));
+        request.getSession().removeAttribute("user");
+        System.out.println(request.getSession().getAttribute("user"));
+        result.put("OK","OK");
+        return result;
     }
 
     @RequestMapping(value = "/register.htm")
     public void register() {
+
+    }
+    @RequestMapping(value = "/index.htm")
+    public void index() {
+
     }
 
     @RequestMapping(value = "/register.json")
