@@ -88,9 +88,24 @@ public class GoodsAction {
     public void addgoods() {
     }
 
+//    @RequestMapping(value = "/goodsdetial.htm")
+//    public void goodsdetial(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+//        String goodscode = request.getParameter("goodcode");
+//        if (goodscode == null || "".equals(goodscode)) {
+//            return;
+//        }
+//        Goods goods = goodsManager.getGoods(goodscode);
+//        List pictures = goodsManager.getGoodsPictureList(goodscode);
+//        modelMap.put("goodsInfo", goods);
+//        modelMap.put("pictures", pictures);
+//    }
+
     @RequestMapping(value = "/goodsdetial.htm")
-    public void goodsdetial(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
-        String goodscode = request.getParameter("goodscode");
+    public void goodsDetial(HttpServletRequest request, ModelMap modelMap){
+        String goodscode = request.getParameter("goodcode");
+        if (goodscode == null || "".equals(goodscode)) {
+            return;
+        }
         Goods goods = goodsManager.getGoods(goodscode);
         List pictures = goodsManager.getGoodsPictureList(goodscode);
         modelMap.put("goodsInfo", goods);

@@ -42,14 +42,14 @@ public class GoodsDaoImpl {
     }
 
     public Goods getGoods(String goodscode){
-        String hql="from Goods where id = ?";
-        return (Goods) this.getSession().createQuery(hql).setParameter(0,goodscode).uniqueResult();
+        String hql="from Goods where goodcode = ?";
+        return (Goods) this.getSession().createQuery(hql).setParameter(0,Integer.valueOf(goodscode)).uniqueResult();
 
     }
 
     public List getGoodsPictureList(String goodscode){
         String hql ="from GoodPicture where id= ? ";
-        return this.getSession().createQuery(hql).setParameter(0,goodscode).list();
+        return this.getSession().createQuery(hql).setParameter(0,Integer.valueOf(goodscode)).list();
     }
 
 }

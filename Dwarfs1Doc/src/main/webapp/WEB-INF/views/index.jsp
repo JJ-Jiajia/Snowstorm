@@ -109,22 +109,23 @@
                     layer.close(layero);
                 }
             })
-        })
+        });
+        
     });
     var flag = false;
     function listdata() {
         if (flag) {
             var totalRecord1 = parseInt($('#totalRecord').text());
-            var pageSize1 = parseInt($('#pageSize').val() == '' ? '-1' : $('#pageSize').val());
-            var currentPage1 = parseInt($('#jump').val() == '' ? '1' : $('#jump').val());
+            var pageSize1 = parseInt($('#pageSize').val() === '' ? '-1' : $('#pageSize').val());
+            var currentPage1 = parseInt($('#jump').val() === '' ? '1' : $('#jump').val());
             if (pageSize1 * currentPage1 > totalRecord1) {
                 return;
             }
         }
         flag = true;
         $('#goodsList').children().remove();
-        var pageSize = $('#pageSize').val() == '' ? '-1' : $('#pageSize').val();
-        var currentPage = $('#jump').val() == '' ? '1' : $('#jump').val();
+        var pageSize = $('#pageSize').val() === '' ? '-1' : $('#pageSize').val();
+        var currentPage = $('#jump').val() === '' ? '1' : $('#jump').val();
         var url = 'getGoods.json';
         $.post(url, {'pageSize': pageSize, 'currentPage': currentPage}, function (data) {
             $('#currentPage').text(data.currentPage);
@@ -136,19 +137,34 @@
                 var imgSrc = dataList[i]['picture'];
                 var name = dataList[i]['name'];
                 var ownername = dataList[i].ownername;
+                var goodcode = dataList[i].goodcode;
                 var createtime = new Date(dataList[i].createtime).Format("yyyy-MM-dd");
                 var domObj = '<div style="float:left;" class="good" >';
-                domObj += '<div><img src="';
+                domObj += '<div onclick="goodDetial(this)"><img src="';
                 domObj += imgSrc;
-                domObj += '" width="250" height="250"><br/><a>物品名称：';
+                domObj += '" width="250" height="250"><br/><a>名称：';
                 domObj += name;
-                domObj += '</a><br/><font>拥有者：</font><a>';
+                domObj += '</a><br/><font>谁的：</font><a>';
                 domObj += ownername;
                 domObj += '</a><br/><div>时间：';
                 domObj += createtime;
-                domObj += '</div> </div></div>';
+                domObj += '</div> </div>'
+                    +'<div id="goodcode">编号：'+goodcode+'</div><br/>'+'</div>';
                 $('#goodsList').append(domObj);
             }
         })
+    }
+    
+    function goodDetial(obj) {
+        var goodcode=$(obj).siblings("#goodcode").html().replace('编号：','');
+        var url = 'goodsdetial.htm?goodcode='+goodcode;
+        layer.open({
+            type: 2,
+            title: '物品详情',
+            area: ['100%', '100%'],
+            maxmin:true,
+            scrollbar:false,
+            content: [url]
+        });
     }
 </script>
