@@ -17,7 +17,7 @@ public class checkLoginFilter implements Filter {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String uri = ((HttpServletRequest) servletRequest).getRequestURI();
-        if (uri.contains("login") || uri.contains("index")|| uri.contains("register")) {
+        if (uri.contains("login") || uri.contains("index")|| uri.contains("register")|| uri.contains("logout")) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             User user = (User) ((HttpServletRequest) servletRequest).getSession().getAttribute("user");

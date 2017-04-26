@@ -6,7 +6,6 @@ import com.jiajia.Snowstorm.beans.Page;
 import com.jiajia.Snowstorm.beans.User;
 import com.jiajia.Snowstorm.manager.GoodsManagerImpl;
 import com.jiajia.Snowstorm.manager.UserManagerImpl;
-import com.jiajia.Snowstorm.util.BeanUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +18,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,9 +34,6 @@ public class GoodsAction {
     @Autowired
     private GoodsManagerImpl goodsManager;
 
-    @Autowired
-    private UserManagerImpl userManager;
-
     @RequestMapping(value = "/getGoods.json", method = RequestMethod.POST)
     @ResponseBody
     public Page<Goods> getGoodss(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
@@ -49,36 +43,6 @@ public class GoodsAction {
         return page;
 
     }
-
-    @RequestMapping(value = "/login.htm")
-    public void login() {
-    }
-
-    @RequestMapping(value = "/register.htm")
-    public void register() {
-    }
-
-    @RequestMapping(value = "/register.json")
-    public void registerToDB(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException, InvocationTargetException, IntrospectionException, InstantiationException, IllegalAccessException {
-        User u;
-        u = BeanUtil.mapToBean(BeanUtil.getParameterMap(request), User.class);
-        userManager.addUser(u);
-
-//        HashMap<String,String> ma=new HashMap<String,String>();
-//        String username=request.getParameter("username");
-//        String password=request.getParameter("password");
-//        String sex=request.getParameter("sex");
-//        String tel=request.getParameter("tel");
-//        //todo 判空操作
-//        User u=new User();
-//        u.setUsername(username);
-//        u.setPasswords(password);
-//        u.setSex(sex);
-//        u.setTel(tel);
-        response.getWriter().print("OK");
-        response.getWriter().flush();
-    }
-
 
     @RequestMapping(value = "/savegoods.json", method = RequestMethod.POST)
     public void saveGoods(@RequestParam("picture") CommonsMultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
