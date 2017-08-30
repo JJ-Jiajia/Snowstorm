@@ -101,7 +101,7 @@ public class GoodsAction {
 //    }
 
     @RequestMapping(value = "/goodsdetial.htm")
-    public void goodsDetial(HttpServletRequest request, ModelMap modelMap){
+    public void goodsDetial(HttpServletRequest request, ModelMap modelMap) {
         String goodscode = request.getParameter("goodcode");
         if (goodscode == null || "".equals(goodscode)) {
             return;
